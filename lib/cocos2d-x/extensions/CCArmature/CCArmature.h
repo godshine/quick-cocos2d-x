@@ -120,8 +120,19 @@ public:
      */
 	virtual void updateOffsetPoint();
 
-	inline void setBlendFunc(ccBlendFunc blendFunc) { m_sBlendFunc = blendFunc; }
-	inline ccBlendFunc getBlendFunc(void) { return m_sBlendFunc; }
+    inline void setBlendFunc(ccBlendFunc blendFunc)
+    {
+        m_sBlendFunc = blendFunc;
+    }
+    inline ccBlendFunc getBlendFunc(void)
+    {
+        return m_sBlendFunc;
+    }
+
+    virtual void setAnimation(CCArmatureAnimation *animation);
+    virtual CCArmatureAnimation *getAnimation();
+
+    virtual CCTextureAtlas *getTexureAtlasWithTexture(CCTexture2D *texture);
 
 protected:
     
@@ -129,9 +140,6 @@ protected:
      * Used to create CCBone internal
      */
 	CCBone *createBone(const char *boneName );
-    
-
-	CC_SYNTHESIZE_RETAIN(CCArmatureAnimation *, m_pAnimation, Animation);
     
     CC_SYNTHESIZE(CCArmatureData *, m_pArmatureData, CCArmatureData);
 
@@ -147,11 +155,15 @@ protected:
 
 	CCArray *m_pTopBoneList;
 
-    static std::map<int, CCArmature*> m_sArmatureIndexDic;	//! Use to save armature zorder info, 
+    static std::map<int, CCArmature *> m_sArmatureIndexDic;	//! Use to save armature zorder info,
 
 	ccBlendFunc m_sBlendFunc;                    //! It's required for CCTextureProtocol inheritance
 
 	CCPoint m_pOffsetPoint;
+
+    CCArmatureAnimation *m_pAnimation;
+
+    CCDictionary *m_pTextureAtlasDic;
 protected:
 	//zrong 2013-11-06 export to lua
 	void onMovementEvent(CCArmature* m_pArmature, MovementEventType evtType, const char* movId);

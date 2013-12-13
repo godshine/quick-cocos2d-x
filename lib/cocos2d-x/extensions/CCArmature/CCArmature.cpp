@@ -74,13 +74,14 @@ CCArmature *CCArmature::create(const char *name, CCBone *parentBone)
 }
 
 CCArmature::CCArmature()
-    : m_pAnimation(NULL)
-	, m_pArmatureData(NULL)
+	: m_pArmatureData(NULL)
 	, m_pBatchNode(NULL)
     , m_pAtlas(NULL)
 	, m_pParentBone(NULL)
 	, m_pBoneDic(NULL)
     , m_pTopBoneList(NULL)
+    , m_pAnimation(NULL)
+    , m_pTextureAtlasDic(NULL)
 	, m_nScriptMovementHandler(NULL)
 {
 }
@@ -103,6 +104,7 @@ CCArmature::~CCArmature(void)
 		disconnectMovementEventSignal();
 	}
     CC_SAFE_DELETE(m_pAnimation);
+    CC_SAFE_RELEASE_NULL(m_pTextureAtlasDic);
 }
 
 
@@ -130,6 +132,8 @@ bool CCArmature::init(const char *name)
         m_pTopBoneList = new CCArray();
         m_pTopBoneList->init();
 
+        CC_SAFE_DELETE(m_pTextureAtlasDic);
+        m_pTextureAtlasDic = new CCDictionary();
 
         m_sBlendFunc.src = CC_BLEND_SRC;
         m_sBlendFunc.dst = CC_BLEND_DST;
@@ -418,6 +422,15 @@ void CCArmature::updateOffsetPoint()
     setAnchorPoint(ccp(m_pOffsetPoint.x / rect.size.width, m_pOffsetPoint.y / rect.size.height));
 }
 
+void CCArmature::setAnimation(CCArmatureAnimation *animation)
+{
+    m_pAnimation = animation;
+}
+
+CCArmatureAnimation *CCArmature::getAnimation()
+{
+    return m_pAnimation;
+}
 
 void CCArmature::update(float dt)
 {
@@ -432,7 +445,7 @@ void CCArmature::update(float dt)
 
 void CCArmature::draw()
 {
-    if (m_pParentBone == NULL)
+    if (m_pParentBone == NULL && m_pBatchNode == NULL)
     {
         CC_NODE_DRAW_SETUP();
         ccGLBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
@@ -583,6 +596,29 @@ CCBone *CCArmature::getBoneAtPoint(float x, float y)
         }
     }
     return NULL;
+}
+
+CCTextureAtlas *CCArmature::getTexureAtlasWithTexture(CCTexture2D *texture)
+{
+    int key = texture->getName();
+
+    if (m_pParentBone && m_pParentBone->getArmature())
+    {
+        return m_pParentBone->getArmature()->getTexureAtlasWithTexture(texture);
+    }
+    else if (m_pBatchNode)
+    {
+		//TODO zrong 2013-12-13 需要取消注释然后处理编译错误
+        //m_pBatchNode->getTexureAtlasWithTexture(texture);
+    }
+
+    CCTextureAtlas *atlas = (CCTextureAtlas *)m_pTextureAtlasDic->objectForKey(key);
+    if (atlas == NULL)
+    {
+        atlas = CCTextureAtlas::createWithTexture(texture, 4);
+        m_pTextureAtlasDic->setObject(atlas, key);
+    }
+    return atlas;
 }
 
 //zrong 2013-12-12 export to lua

@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 #include "CCSkin.h"
 #include "../utils/CCTransformHelp.h"
+#include "../utils/CCSpriteFrameCacheHelper.h"
+#include "../CCArmature.h"
 
 NS_CC_EXT_BEGIN
 
@@ -57,9 +59,54 @@ CCSkin *CCSkin::createWithSpriteFrameName(const char *pszSpriteFrameName)
     return NULL;
 }
 
+CCSkin *CCSkin::create(const char *pszFileName)
+{
+    CCSkin *skin = new CCSkin();
+    if(skin && skin->initWithFile(pszFileName))
+    {
+        skin->autorelease();
+        return skin;
+    }
+    CC_SAFE_DELETE(skin);
+    return NULL;
+}
+
 CCSkin::CCSkin()
     : m_pBone(NULL)
+    , m_pArmature(NULL)
+    , m_strDisplayName("")
 {
+}
+
+bool CCSkin::initWithSpriteFrameName(const char *pszSpriteFrameName)
+{
+    CCAssert(pszSpriteFrameName != NULL, "");
+
+    CCSpriteFrame *pFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(pszSpriteFrameName);
+    bool ret = true;
+
+    if (pFrame != NULL)
+    {
+        ret = initWithSpriteFrame(pFrame);
+
+        m_strDisplayName = pszSpriteFrameName;
+    }
+    else
+    {
+        CCLOG("Cann't find CCSpriteFrame with %s. Please check your .plist file", pszSpriteFrameName);
+        ret = false;
+    }
+
+    return ret;
+}
+
+bool CCSkin::initWithFile(const char *pszFilename)
+{
+    bool ret = CCSprite::initWithFile(pszFilename);
+
+    m_strDisplayName = pszFilename;
+
+    return ret;
 }
 
 void CCSkin::setSkinData(const CCBaseData &var)
@@ -68,7 +115,8 @@ void CCSkin::setSkinData(const CCBaseData &var)
 
     setScaleX(m_sSkinData.scaleX);
     setScaleY(m_sSkinData.scaleY);
-    setRotation(CC_RADIANS_TO_DEGREES(m_sSkinData.skewX));
+    setRotationX(CC_RADIANS_TO_DEGREES(m_sSkinData.skewX));
+    setRotationY(CC_RADIANS_TO_DEGREES(-m_sSkinData.skewY));
     setPosition(ccp(m_sSkinData.x, m_sSkinData.y));
 
     m_tSkinTransform = nodeToParentTransform();
@@ -135,6 +183,23 @@ void CCSkin::draw()
     {
         m_pobTextureAtlas->updateQuad(&m_sQuad, m_pobTextureAtlas->getTotalQuads());
     }
+}
+
+void CCSkin::setBone(CCBone *bone)
+{
+    m_pBone = bone;
+    if(CCArmature *armature = m_pBone->getArmature())
+    {
+        m_pArmature = armature;
+
+        CCTextureAtlas *atlas = armature->getTexureAtlasWithTexture(m_pobTexture);
+        setTextureAtlas(atlas);
+    }
+}
+
+CCBone *CCSkin::getBone()
+{
+    return m_pBone;
 }
 
 NS_CC_EXT_END

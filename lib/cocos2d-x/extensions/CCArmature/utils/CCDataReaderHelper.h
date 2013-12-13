@@ -48,25 +48,10 @@ public:
     static float getPositionReadScale();
 
     static void addDataFromFile(const char *filePath);
+	static void removeConfigFile(const char *configFile);
 
-    static void clear();
+    static void purge();
 public:
-
-    /**
-     * Translate XML export from Dragon CCBone flash tool to datas, and save them.
-     * When you add a new xml, the data already saved will be keeped.
-     *
-     * @param xmlPath Path of xml file
-     */
-    static void addDataFromXML(const char *xmlPath);
-
-    /**
-     * Translate XML export from Dragon CCBone flash tool to datas, and save them.
-     * When you add a new xml, the data already saved will be keeped.
-     *
-     * @param xmlPath Path of pak file
-     */
-    static void addDataFromXMLPak(const char *xmlPakPath);
 
     /**
      * Translate XML export from Dragon CCBone flash tool to datas, and save them.
@@ -75,8 +60,6 @@ public:
      * @param xmlPath The cache of the xml
      */
     static void addDataFromCache(const char *pFileContent);
-
-
 
     /**
      * Decode CCArmature Datas from xml export from Dragon CCBone flash tool
@@ -107,7 +90,6 @@ public:
 
 public:
 
-    static void addDataFromJson(const char *filePath);
     static void addDataFromJsonCache(const char *fileContent);
 
     static CCArmatureData *decodeArmature(cs::CSJsonDictionary &json);

@@ -1,6 +1,6 @@
 /*
 ** Lua binding: Cocos2d
-** Generated automatically by tolua++-1.0.92 on Tue Dec  3 15:04:41 2013.
+** Generated automatically by tolua++-1.0.92 on 12/13/13 16:17:28.
 */
 
 /****************************************************************************
@@ -415,6 +415,8 @@ static void tolua_reg_types (lua_State* tolua_S)
  toluafix_add_type_mapping(typeid(CCEaseExponentialInOut).hash_code(), "CCEaseExponentialInOut");
  tolua_usertype(tolua_S,"CCFadeOutUpTiles");
  toluafix_add_type_mapping(typeid(CCFadeOutUpTiles).hash_code(), "CCFadeOutUpTiles");
+ tolua_usertype(tolua_S,"CCTextureData");
+ toluafix_add_type_mapping(typeid(CCTextureData).hash_code(), "CCTextureData");
  tolua_usertype(tolua_S,"CCWaves3D");
  toluafix_add_type_mapping(typeid(CCWaves3D).hash_code(), "CCWaves3D");
  tolua_usertype(tolua_S,"ccBlendFunc");
@@ -61066,7 +61068,7 @@ static int tolua_Cocos2d_CCArmatureDataManager_sharedArmatureDataManager00(lua_S
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: purgeArmatureSystem of class  CCArmatureDataManager */
+/* method: purge of class  CCArmatureDataManager */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_purgeArmatureSystem00
 static int tolua_Cocos2d_CCArmatureDataManager_purgeArmatureSystem00(lua_State* tolua_S)
 {
@@ -61081,7 +61083,7 @@ static int tolua_Cocos2d_CCArmatureDataManager_purgeArmatureSystem00(lua_State* 
 #endif
  {
   {
-   CCArmatureDataManager::purgeArmatureSystem();
+   CCArmatureDataManager::purge();
   }
  }
  return 0;
@@ -61103,7 +61105,8 @@ static int tolua_Cocos2d_CCArmatureDataManager_addArmatureData00(lua_State* tolu
      !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
      !tolua_isstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isusertype(tolua_S,3,"CCArmatureData",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isstring(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -61112,11 +61115,12 @@ static int tolua_Cocos2d_CCArmatureDataManager_addArmatureData00(lua_State* tolu
   CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
   const char* id = ((const char*)  tolua_tostring(tolua_S,2,0));
   CCArmatureData* armatureData = ((CCArmatureData*)  tolua_tousertype(tolua_S,3,0));
+  const char* configFilePath = ((const char*)  tolua_tostring(tolua_S,4,""));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addArmatureData'", NULL);
 #endif
   {
-   self->addArmatureData(id,armatureData);
+   self->addArmatureData(id,armatureData,configFilePath);
   }
  }
  return 0;
@@ -61164,6 +61168,39 @@ static int tolua_Cocos2d_CCArmatureDataManager_getArmatureData00(lua_State* tolu
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: removeArmatureData of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_removeArmatureData00
+static int tolua_Cocos2d_CCArmatureDataManager_removeArmatureData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+  const char* id = ((const char*)  tolua_tostring(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'removeArmatureData'", NULL);
+#endif
+  {
+   self->removeArmatureData(id);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'removeArmatureData'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: addAnimationData of class  CCArmatureDataManager */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_addAnimationData00
 static int tolua_Cocos2d_CCArmatureDataManager_addAnimationData00(lua_State* tolua_S)
@@ -61174,7 +61211,8 @@ static int tolua_Cocos2d_CCArmatureDataManager_addAnimationData00(lua_State* tol
      !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
      !tolua_isstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isusertype(tolua_S,3,"CCAnimationData",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isstring(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -61183,11 +61221,12 @@ static int tolua_Cocos2d_CCArmatureDataManager_addAnimationData00(lua_State* tol
   CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
   const char* id = ((const char*)  tolua_tostring(tolua_S,2,0));
   CCAnimationData* animationData = ((CCAnimationData*)  tolua_tousertype(tolua_S,3,0));
+  const char* configFilePath = ((const char*)  tolua_tostring(tolua_S,4,""));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addAnimationData'", NULL);
 #endif
   {
-   self->addAnimationData(id,animationData);
+   self->addAnimationData(id,animationData,configFilePath);
   }
  }
  return 0;
@@ -61235,6 +61274,143 @@ static int tolua_Cocos2d_CCArmatureDataManager_getAnimationData00(lua_State* tol
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: removeAnimationData of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_removeAnimationData00
+static int tolua_Cocos2d_CCArmatureDataManager_removeAnimationData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+  const char* id = ((const char*)  tolua_tostring(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'removeAnimationData'", NULL);
+#endif
+  {
+   self->removeAnimationData(id);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'removeAnimationData'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: addTextureData of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_addTextureData00
+static int tolua_Cocos2d_CCArmatureDataManager_addTextureData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,3,"CCTextureData",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+  const char* id = ((const char*)  tolua_tostring(tolua_S,2,0));
+  CCTextureData* textureData = ((CCTextureData*)  tolua_tousertype(tolua_S,3,0));
+  const char* configFilePath = ((const char*)  tolua_tostring(tolua_S,4,""));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addTextureData'", NULL);
+#endif
+  {
+   self->addTextureData(id,textureData,configFilePath);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'addTextureData'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getTextureData of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_getTextureData00
+static int tolua_Cocos2d_CCArmatureDataManager_getTextureData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+  const char* id = ((const char*)  tolua_tostring(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getTextureData'", NULL);
+#endif
+  {
+   CCTextureData* tolua_ret = (CCTextureData*)  self->getTextureData(id);
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"CCTextureData");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getTextureData'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: removeTextureData of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_removeTextureData00
+static int tolua_Cocos2d_CCArmatureDataManager_removeTextureData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+  const char* id = ((const char*)  tolua_tostring(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'removeTextureData'", NULL);
+#endif
+  {
+   self->removeTextureData(id);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'removeTextureData'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: addArmatureFileInfo of class  CCArmatureDataManager */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_addArmatureFileInfo00
 static int tolua_Cocos2d_CCArmatureDataManager_addArmatureFileInfo00(lua_State* tolua_S)
@@ -61272,6 +61448,39 @@ static int tolua_Cocos2d_CCArmatureDataManager_addArmatureFileInfo00(lua_State* 
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: removeArmatureFileInfo of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_removeArmatureFileInfo00
+static int tolua_Cocos2d_CCArmatureDataManager_removeArmatureFileInfo00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+  const char* configFilePath = ((const char*)  tolua_tostring(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'removeArmatureFileInfo'", NULL);
+#endif
+  {
+   self->removeArmatureFileInfo(configFilePath);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'removeArmatureFileInfo'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: addSpriteFrameFromFile of class  CCArmatureDataManager */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_addSpriteFrameFromFile00
 static int tolua_Cocos2d_CCArmatureDataManager_addSpriteFrameFromFile00(lua_State* tolua_S)
@@ -61282,7 +61491,8 @@ static int tolua_Cocos2d_CCArmatureDataManager_addSpriteFrameFromFile00(lua_Stat
      !tolua_isusertype(tolua_S,1,"CCArmatureDataManager",0,&tolua_err) ||
      !tolua_isstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isstring(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isstring(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -61291,11 +61501,12 @@ static int tolua_Cocos2d_CCArmatureDataManager_addSpriteFrameFromFile00(lua_Stat
   CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
   const char* plistPath = ((const char*)  tolua_tostring(tolua_S,2,0));
   const char* imagePath = ((const char*)  tolua_tostring(tolua_S,3,0));
+  const char* configFilePath = ((const char*)  tolua_tostring(tolua_S,4,""));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addSpriteFrameFromFile'", NULL);
 #endif
   {
-   self->addSpriteFrameFromFile(plistPath,imagePath);
+   self->addSpriteFrameFromFile(plistPath,imagePath,configFilePath);
   }
  }
  return 0;
@@ -61307,9 +61518,9 @@ static int tolua_Cocos2d_CCArmatureDataManager_addSpriteFrameFromFile00(lua_Stat
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: removeAll of class  CCArmatureDataManager */
-#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_removeAll00
-static int tolua_Cocos2d_CCArmatureDataManager_removeAll00(lua_State* tolua_S)
+/* method: isAutoLoadSpriteFile of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_isAutoLoadSpriteFile00
+static int tolua_Cocos2d_CCArmatureDataManager_isAutoLoadSpriteFile00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -61323,16 +61534,119 @@ static int tolua_Cocos2d_CCArmatureDataManager_removeAll00(lua_State* tolua_S)
  {
   CCArmatureDataManager* self = (CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'removeAll'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isAutoLoadSpriteFile'", NULL);
 #endif
   {
-   self->removeAll();
+   bool tolua_ret = (bool)  self->isAutoLoadSpriteFile();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
   }
  }
- return 0;
+ return 1;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'removeAll'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'isAutoLoadSpriteFile'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getArmatureDatas of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_getArmatureDatas00
+static int tolua_Cocos2d_CCArmatureDataManager_getArmatureDatas00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const CCArmatureDataManager* self = (const CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getArmatureDatas'", NULL);
+#endif
+  {
+   CCDictionary* tolua_ret = (CCDictionary*)  self->getArmatureDatas();
+    int nID = (tolua_ret) ? (int)tolua_ret->m_uID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->m_nLuaID : NULL;
+    toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"CCDictionary");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getArmatureDatas'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getAnimationDatas of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_getAnimationDatas00
+static int tolua_Cocos2d_CCArmatureDataManager_getAnimationDatas00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const CCArmatureDataManager* self = (const CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getAnimationDatas'", NULL);
+#endif
+  {
+   CCDictionary* tolua_ret = (CCDictionary*)  self->getAnimationDatas();
+    int nID = (tolua_ret) ? (int)tolua_ret->m_uID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->m_nLuaID : NULL;
+    toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"CCDictionary");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getAnimationDatas'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getTextureDatas of class  CCArmatureDataManager */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCArmatureDataManager_getTextureDatas00
+static int tolua_Cocos2d_CCArmatureDataManager_getTextureDatas00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const CCArmatureDataManager",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const CCArmatureDataManager* self = (const CCArmatureDataManager*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getTextureDatas'", NULL);
+#endif
+  {
+   CCDictionary* tolua_ret = (CCDictionary*)  self->getTextureDatas();
+    int nID = (tolua_ret) ? (int)tolua_ret->m_uID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->m_nLuaID : NULL;
+    toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"CCDictionary");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getTextureDatas'.",&tolua_err);
  return 0;
 #endif
 }
@@ -65345,11 +65659,20 @@ TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
    tolua_function(tolua_S,"purgeArmatureSystem",tolua_Cocos2d_CCArmatureDataManager_purgeArmatureSystem00);
    tolua_function(tolua_S,"addArmatureData",tolua_Cocos2d_CCArmatureDataManager_addArmatureData00);
    tolua_function(tolua_S,"getArmatureData",tolua_Cocos2d_CCArmatureDataManager_getArmatureData00);
+   tolua_function(tolua_S,"removeArmatureData",tolua_Cocos2d_CCArmatureDataManager_removeArmatureData00);
    tolua_function(tolua_S,"addAnimationData",tolua_Cocos2d_CCArmatureDataManager_addAnimationData00);
    tolua_function(tolua_S,"getAnimationData",tolua_Cocos2d_CCArmatureDataManager_getAnimationData00);
+   tolua_function(tolua_S,"removeAnimationData",tolua_Cocos2d_CCArmatureDataManager_removeAnimationData00);
+   tolua_function(tolua_S,"addTextureData",tolua_Cocos2d_CCArmatureDataManager_addTextureData00);
+   tolua_function(tolua_S,"getTextureData",tolua_Cocos2d_CCArmatureDataManager_getTextureData00);
+   tolua_function(tolua_S,"removeTextureData",tolua_Cocos2d_CCArmatureDataManager_removeTextureData00);
    tolua_function(tolua_S,"addArmatureFileInfo",tolua_Cocos2d_CCArmatureDataManager_addArmatureFileInfo00);
+   tolua_function(tolua_S,"removeArmatureFileInfo",tolua_Cocos2d_CCArmatureDataManager_removeArmatureFileInfo00);
    tolua_function(tolua_S,"addSpriteFrameFromFile",tolua_Cocos2d_CCArmatureDataManager_addSpriteFrameFromFile00);
-   tolua_function(tolua_S,"removeAll",tolua_Cocos2d_CCArmatureDataManager_removeAll00);
+   tolua_function(tolua_S,"isAutoLoadSpriteFile",tolua_Cocos2d_CCArmatureDataManager_isAutoLoadSpriteFile00);
+   tolua_function(tolua_S,"getArmatureDatas",tolua_Cocos2d_CCArmatureDataManager_getArmatureDatas00);
+   tolua_function(tolua_S,"getAnimationDatas",tolua_Cocos2d_CCArmatureDataManager_getAnimationDatas00);
+   tolua_function(tolua_S,"getTextureDatas",tolua_Cocos2d_CCArmatureDataManager_getTextureDatas00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"CCArmature","CCArmature","CCNode",NULL);
   tolua_beginmodule(tolua_S,"CCArmature");

@@ -142,7 +142,7 @@ float CCDataReaderHelper::getPositionReadScale()
     return s_PositionReadScale;
 }
 
-void CCDataReaderHelper::clear()
+void CCDataReaderHelper::purge()
 {
     s_arrConfigFileList.clear();
 }
@@ -161,55 +161,41 @@ void CCDataReaderHelper::addDataFromFile(const char *filePath)
     }
     s_arrConfigFileList.push_back(filePath);
 
-
     std::string filePathStr = filePath;
     size_t startPos = filePathStr.find_last_of(".");
     std::string str = &filePathStr[startPos];
 
+    unsigned long size;
+    std::string fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filePath);
+    const char *pFileContent = (char *)CCFileUtils::sharedFileUtils()->getFileData(fullPath.c_str() , "r", &size);
+
     if (str.compare(".xml") == 0)
     {
-        CCDataReaderHelper::addDataFromXML(filePathStr.c_str());
+        CCDataReaderHelper::addDataFromCache(pFileContent);
     }
     else if(str.compare(".json") == 0 || str.compare(".ExportJson") == 0)
     {
-        CCDataReaderHelper::addDataFromJson(filePathStr.c_str());
+        CCDataReaderHelper::addDataFromJsonCache(pFileContent);
     }
 }
 
-
-
-void CCDataReaderHelper::addDataFromXML(const char *xmlPath)
+void CCDataReaderHelper::removeConfigFile(const char *configFile)
 {
-    /*
-    *  Need to get the full path of the xml file, or the Tiny XML can't find the xml at IOS
-    */
-    std::string fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(xmlPath);
-
-    /*
-    *  Need to read the tiny xml into memory first, or the Tiny XML can't find the xml at IOS
-    */
-    unsigned long size;
-    const char *pFileContent = (char *)CCFileUtils::sharedFileUtils()->getFileData(fullPath.c_str() , "r", &size);
-
-    if (pFileContent)
+    std::vector<std::string>::iterator it = s_arrConfigFileList.end();
+    for (std::vector<std::string>::iterator i = s_arrConfigFileList.begin(); i != s_arrConfigFileList.end(); i++)
     {
-        addDataFromCache(pFileContent);
+        if (*i == configFile)
+        {
+            it = i;
+        }
+    }
+
+    if (it != s_arrConfigFileList.end())
+    {
+        s_arrConfigFileList.erase(it);
     }
 }
 
-void CCDataReaderHelper::addDataFromXMLPak(const char *xmlPakPath)
-{
-    // #if CS_TOOL_PLATFORM
-    //
-    // 	char *_pFileContent = NULL;
-    // 	JsonReader::getFileBuffer(xmlPakPath, &_pFileContent);
-    //
-    // 	if (_pFileContent)
-    // 	{
-    // 		addDataFromCache(_pFileContent);
-    // 	}
-    // #endif
-}
 
 void CCDataReaderHelper::addDataFromCache(const char *pFileContent)
 {
@@ -792,17 +778,6 @@ CCContourData *CCDataReaderHelper::decodeContour(tinyxml2::XMLElement *contourXM
 
     return contourData;
 
-}
-
-
-
-void CCDataReaderHelper::addDataFromJson(const char *filePath)
-{
-    unsigned long size;
-    std::string fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filePath);
-    const char *pFileContent = (char *)CCFileUtils::sharedFileUtils()->getFileData(fullPath.c_str() , "r", &size);
-
-    addDataFromJsonCache(pFileContent);
 }
 
 void CCDataReaderHelper::addDataFromJsonCache(const char *fileContent)

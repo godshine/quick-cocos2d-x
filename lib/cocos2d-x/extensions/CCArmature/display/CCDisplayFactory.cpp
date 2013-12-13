@@ -137,8 +137,14 @@ void CCDisplayFactory::createSpriteDisplay(CCBone *bone, CCDecorativeDisplay *de
         skin = CCSkin::createWithSpriteFrameName((textureName + ".png").c_str());
     }
 
-    CCTextureAtlas *atlas = CCSpriteFrameCacheHelper::sharedSpriteFrameCacheHelper()->getTextureAtlas((textureName + ".png").c_str());
-    skin->setTextureAtlas(atlas);
+    decoDisplay->setDisplay(skin);
+
+    if (skin == NULL)
+    {
+        return;
+    }
+
+    skin->setBone(bone);
 
     CCTextureData *textureData = CCArmatureDataManager::sharedArmatureDataManager()->getTextureData(textureName.c_str());
     if(textureData)
@@ -147,10 +153,7 @@ void CCDisplayFactory::createSpriteDisplay(CCBone *bone, CCDecorativeDisplay *de
         skin->setAnchorPoint(ccp( textureData->pivotX, textureData->pivotY));
     }
 
-    skin->setBone(bone);
     skin->setSkinData(*bone->getBoneData());
-
-    decoDisplay->setDisplay(skin);
 
 #if ENABLE_PHYSICS_DETECT
     if (textureData && textureData->contourDataList.count() > 0)
@@ -174,7 +177,7 @@ void CCDisplayFactory::updateSpriteDisplay(CCBone *bone, CCDecorativeDisplay *de
 
 void CCDisplayFactory::addArmatureDisplay(CCBone *bone, CCDecorativeDisplay *decoDisplay, CCDisplayData *displayData)
 {
-    CCArmatureDisplayData *adp = CCArmatureDisplayData::create(); ;
+    CCArmatureDisplayData *adp = CCArmatureDisplayData::create();
     adp->copy((CCArmatureDisplayData *)displayData);
     decoDisplay->setDisplayData(adp);
 

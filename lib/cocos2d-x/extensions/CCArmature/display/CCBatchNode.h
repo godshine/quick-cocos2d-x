@@ -35,14 +35,21 @@ public:
     static CCBatchNode *create();
 public:
     CCBatchNode();
+    ~CCBatchNode();
 
     virtual bool init();
-    virtual void addChild(CCNode *child, int zOrder, int tag);
+    virtual void addChild(CCNode *pChild);
+    virtual void addChild(CCNode *pChild, int zOrder);
+    virtual void addChild(CCNode *pChild, int zOrder, int tag);
+    virtual void removeChild(CCNode* child, bool cleanup);
     virtual void visit();
     void draw();
 
+	//TODO zrong 2013-12-13 需要取消注释然后处理编译错误
+    //virtual CCTextureAtlas *getTexureAtlasWithTexture(CCTexture2D *texture);
 protected:
     CCTextureAtlas *m_pAtlas;
+    CCDictionary *m_pTextureAtlasDic;
 };
 
 NS_CC_EXT_END
